@@ -1,35 +1,30 @@
-git *.db
- *.db-journal
-
-
 # Archivos temporales de SQLite
 *.db-shm
 *.db-wal
+*.db-journal
 
-# Visual Studio Code
-.vscode/
-*.code-workspace
-# Visual Studio
+# Visual Studio / Rider
 .vs/
+.idea/
 *.suo
 *.user
+*.useros
 *.resharper
 *.sln.docstates
+*.code-workspace # Para VS Code
 
-# Build results
-[Dd]ebug/
-[Rr]elease/
+# Build results and temporary files
 [Bb]in/
 [Oo]bj/
+[Dd]ebug/
+[Rr]elease/
 *.dll
 *.exe
 *.pdb
 *.tmp
 *.log
-*.user
 *.bak
 *.cache
-*.obj
 *.ncb
 *.opensdf
 *.sdf
@@ -52,29 +47,25 @@ _UpgradeReport_Files/
 .nuget/tools/
 .nuget/tmp/
 
-# Rider
-.idea/
-
-
 # Database files
-*.db # Esto ignorará tu archivo TeamTasks.db si está en la raíz del proyecto
+# Ignora todos los archivos .db por defecto
+*.db
+# EXCEPTO los archivos .db dentro de la carpeta 'database/' en la raíz
+!/database/*.db
+
+
 *.mdf
 *.ldf
 
 # Azure Web Sites
 app_data/
 
-
 # Node modules
 node_modules/
-
-# .NET
-bin/
-obj/
-*.user
-*.suo
 
 # Environment variables
 .env
 .env.local
+
+# Archivos de configuración de desarrollo que no deben subirse a producción
 appsettings.Development.json

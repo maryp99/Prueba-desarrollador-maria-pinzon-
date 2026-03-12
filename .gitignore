@@ -9,6 +9,61 @@ git *.db
 # Visual Studio Code
 .vscode/
 *.code-workspace
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.resharper
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+*.dll
+*.exe
+*.pdb
+*.tmp
+*.log
+*.user
+*.bak
+*.cache
+*.obj
+*.ncb
+*.opensdf
+*.sdf
+*.ipch
+_ReSharper.*/
+[Tt]est[Rr]esults/
+[Bb]uild[Ll]og.htm
+[Bb]uild[Ll]og.txt
+[Ss]ource[Ii]nfo/
+
+# Packages
+packages/
+*.nupkg
+*.snk
+*.vstemplat
+*.vsix
+*.vsixmanifest
+_UpgradeReport_Files/
+.nuget/packages/
+.nuget/tools/
+.nuget/tmp/
+
+# Rider
+.idea/
+
+
+# Database files
+*.db # Esto ignorará tu archivo TeamTasks.db si está en la raíz del proyecto
+*.mdf
+*.ldf
+
+# Azure Web Sites
+app_data/
+
 
 # Node modules
 node_modules/

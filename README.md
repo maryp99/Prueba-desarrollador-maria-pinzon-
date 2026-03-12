@@ -39,9 +39,14 @@ Si deseas recrear la base de datos desde cero:
 cd database
 sqlite3 TeamTasksSample.db < DBSetup_TeamTasks_SQLite.sql
 
-🔍 Consultas de Verificación
-Ejecutar verify_data.sql para validar:
-    
+## 🔍 Consultas de Verificación y Análisis
+
+El archivo `verify_data.sql` contiene una serie de consultas útiles para validar la integridad de los datos,
+obtener resúmenes del estado del proyecto y las tareas, y realizar análisis avanzados como la predicción de riesgo de retraso.
+
+Para ejecutar todas las consultas de verificación:
+
+```bash
 sqlite3 TeamTasksSample.db < verify_data.sql
 
 

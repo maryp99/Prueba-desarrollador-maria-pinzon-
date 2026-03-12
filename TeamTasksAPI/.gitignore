@@ -1,0 +1,29 @@
+# Database files
+*.db # Ignora archivos .db en la raíz
+!database/*.db # PERO, no ignores archivos .db dentro de la carpeta 'database/'
+*.mdf
+*.ldf
+ #*.db-journal
+
+
+# Archivos temporales de SQLite
+*.db-shm
+*.db-wal
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Node modules
+node_modules/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Environment variables
+.env
+.env.local
+appsettings.Development.json

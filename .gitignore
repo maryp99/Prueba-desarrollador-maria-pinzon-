@@ -1,0 +1,25 @@
+git *.db
+ *.db-journal
+
+
+# Archivos temporales de SQLite
+*.db-shm
+*.db-wal
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Node modules
+node_modules/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Environment variables
+.env
+.env.local
+appsettings.Development.json

@@ -1,0 +1,130 @@
+<!-- team-tasks-app/src/app/components/dashboard/dashboard.component.html -->
+
+<div class="dashboard-container">
+  
+  <!-- HEADER -->
+  <header class="dashboard-header">
+    <h1>📊 Team Tasks Dashboard</h1>
+    <button class="refresh-btn" (click)="loadAllData()">
+      🔄 Actualizar
+    </button>
+  </header>
+
+  <!-- SECCIÓN 1: CARGA POR DESARROLLADOR -->
+  <section class="dashboard-section">
+    <h2>👨‍💻 Carga de Trabajo por Desarrollador</h2>
+    
+    <div *ngIf="loading.workload" class="loading">
+      Cargando...
+    </div>
+    
+    <div *ngIf="error.workload" class="error">
+      {{ error.workload }}
+    </div>
+    
+    <div *ngIf="!loading.workload && !error.workload" class="cards-grid">
+      <div *ngFor="let dev of developerWorkload" class="card">
+        <h3>{{ dev.developerName }}</h3>
+        <div class="card-content">
+          <div class="metric">
+            <span class="label">Tareas Abiertas:</span>
+            <span class="value">{{ dev.openTasksCount }}</span>
+          </div>
+          <div class="metric">
+            <span class="label">Complejidad Promedio:</span>
+            <span class="value">{{ dev.avgEstimatedComplexity || 0 | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- SECCIÓN 2: ESTADO DE PROYECTOS -->
+  <section class="dashboard-section">
+    <h2>📁 Estado de Proyectos</h2>
+    
+    <div *ngIf="loading.projects" class="loading">
+      Cargando...
+    </div>
+    
+    <div *ngIf="error.projects" class="error">
+      {{ error.projects }}
+    </div>
+    
+    <div *ngIf="!loading.projects && !error.projects" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Proyecto</th>
+            <th>Cliente</th>
+            <th>Total Tareas</th>
+            <th>Abiertas</th>
+            <th>Completadas</th>
+            <th>Progreso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projectHealth">
+            <td>{{ project.projectName }}</td>
+            <td>{{ project.clientName }}</td>
+            <td>{{ project.totalTasks }}</td>
+            <td>{{ project.openTasks }}</td>
+            <td>{{ project.completedTasks }}</td>
+            <td>
+              <div class="progress-bar">
+                <div 
+                  class="progress-fill" 
+                  [style.width.%]="getCompletionPercentage(project)">
+                </div>
+                <span class="progress-text">
+                  {{ getCompletionPercentage(project) }}%
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <!-- SECCIÓN 3: RIESGO DE RETRASOS -->
+  <section class="dashboard-section">
+    <h2>⚠️ Riesgo de Retrasos</h2>
+    
+    <div *ngIf="loading.risks" class="loading">
+      Cargando...
+    </div>
+    
+    <div *ngIf="error.risks" class="error">
+      {{ error.risks }}
+    </div>
+    
+    <div *ngIf="!loading.risks && !error.risks" class="cards-grid">
+      <div *ngFor="let risk of developerDelayRisk" 
+           class="card risk-card"
+           [ngClass]="getRiskClass(risk)">
+        <h3>{{ risk.developerName }}</h3>
+        <div class="card-content">
+          <div class="metric">
+            <span class="label">Tareas Abiertas:</span>
+            <span class="value">{{ risk.openTasksCount }}</span>
+          </div>
+          <div class="metric">
+            <span class="label">Retraso Promedio:</span>
+            <span class="value">{{ risk.avgDelayDays | number:'1.2-2' }} días</span>
+          </div>
+          <div class="metric">
+            <span class="label">Fecha Más Cercana:</span>
+            <span class="value">{{ risk.nearestDueDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="metric">
+            <span class="label">Completitud Estimada:</span>
+            <span class="value">{{ risk.predictedCompletionDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="risk-badge" *ngIf="risk.highRiskFlag === 1">
+            🚨 ALTO RIESGO
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,17 @@
+<!-- src/app/shared/components/task-detail-modal/task-detail-modal.component.html -->
+<div class="modal-overlay" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Detalle de Tarea</h2>
+    <ng-container *ngIf="task">
+      <p><strong>Título:</strong> {{ task.title }}</p>
+      <p><strong>Descripción:</strong> {{ task.description }}</p>
+      <p><strong>Proyecto:</strong> {{ task.projectName }}</p>
+      <p><strong>Asignado a:</strong> {{ task.assigneeName }}</p>
+      <p><strong>Estado:</strong> <span [class]="getStatusClass(task.status)">{{ task.status }}</span></p>
+      <p><strong>Prioridad:</strong> {{ task.priority }}</p>
+      <p><strong>Complejidad:</strong> {{ task.estimatedComplexity }}</p>
+      <p><strong>Fecha Vencimiento:</strong> {{ task.dueDate | date }}</p>
+    </ng-container>
+    <button (click)="close()">Cerrar</button>
+  </div>
+</div>

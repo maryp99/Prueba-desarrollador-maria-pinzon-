@@ -1,0 +1,154 @@
+<!-- src/app/project-tasks/project-tasks.component.html -->
+
+<div class="project-tasks-container">
+  
+  <!-- ═══════════════════════════════════════
+       ENCABEZADO
+  ═══════════════════════════════════════ -->
+  <div class="page-header">
+    <h1>📋 Tareas del Proyecto {{ projectName }}</h1>
+    <button class="btn-back" routerLink="/dashboard">
+      ← Volver al Dashboard
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FILTROS Y CONTROLES
+  ═══════════════════════════════════════ -->
+  <div class="controls-section">
+    
+    <!-- FILTROS -->
+    <div class="filters-group">
+      <div class="filter-item">
+        <label for="status-filter">Estado:</label>
+        <select 
+          id="status-filter" 
+          [(ngModel)]="selectedStatus"
+          (change)="onStatusChange()"
+          [disabled]="isLoading">
+          <option value="">Todos</option>
+          <option value="TODO">TODO</option>
+          <option value="InProgress">InProgress</option>
+          <option value="Done">Done</option>
+          <option value="Blocked">Blocked</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="developer-filter">Desarrollador:</label>
+        <select 
+          id="developer-filter" 
+          [(ngModel)]="selectedDeveloper"
+          (change)="onDeveloperChange()"
+          [disabled]="isLoading">
+          <option [ngValue]="null">Todos</option>
+          <option *ngFor="let dev of availableDevelopers" [ngValue]="dev.id">
+            {{ dev.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- CONTROL DE TAMAÑO DE PÁGINA -->
+    <div class="page-size-control">
+      <label for="page-size">Mostrar:</label>
+      <select 
+        id="page-size" 
+        [(ngModel)]="pageSize"
+        (change)="onPageSizeChange()"
+        [disabled]="isLoading">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+      </select>
+      <span>por página</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       INFORMACIÓN DE RESULTADOS
+  ═══════════════════════════════════════ -->
+  <div *ngIf="hasResults()" class="results-info">
+    <p>
+      Mostrando 
+      <strong>{{ getPageRange().from }}</strong> - 
+      <strong>{{ getPageRange().to }}</strong> 
+      de 
+      <strong>{{ totalTasks }}</strong> 
+      tareas
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       INDICADOR DE CARGA
+  ═══════════════════════════════════════ -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando tareas...</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TABLA DE TAREAS
+  ═══════════════════════════════════════ -->
+  <app-reusable-table
+    *ngIf="hasResults()"
+    [data]="tasks"
+    [columns]="projectTasksColumns"
+    [getRowClass]="getRowClass"
+    [isLoading]="isLoading"
+    (rowClick)="showDetail($event)">
+  </app-reusable-table>
+
+  <!-- ═══════════════════════════════════════
+       MENSAJE SIN DATOS
+  ═══════════════════════════════════════ -->
+  <div *ngIf="!isLoading && tasks.length === 0" class="no-data-container">
+    <div class="no-data-icon">📭</div>
+    <h3>No hay tareas para mostrar</h3>
+    <p>No se encontraron tareas con los criterios seleccionados.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PAGINACIÓN 
+  ═══════════════════════════════════════ -->
+  <div *ngIf="shouldShowPagination()" class="pagination-container">
+    
+    <!-- BOTÓN ANTERIOR -->
+    <button 
+      class="btn-pagination"
+      (click)="onPageChange(page - 1)" 
+      [disabled]="page === 1"
+      [class.disabled]="page === 1">
+      <span class="icon">←</span>
+      <span class="text">Anterior</span>
+    </button>
+
+    <!-- INFORMACIÓN DE PÁGINA -->
+    <div class="page-info">
+      <span class="page-text">Página</span>
+      <strong class="current-page">{{ page }}</strong>
+      <span class="separator">de</span>
+      <strong class="total-pages">{{ getTotalPages() }}</strong>
+    </div>
+
+    <!-- BOTÓN SIGUIENTE -->
+    <button 
+      class="btn-pagination"
+      (click)="onPageChange(page + 1)" 
+      [disabled]="page >= getTotalPages()"
+      [class.disabled]="page >= getTotalPages()">
+      <span class="text">Siguiente</span>
+      <span class="icon">→</span>
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       MODAL DE DETALLE
+  ═══════════════════════════════════════ -->
+  <app-task-detail-modal
+    *ngIf="showTaskDetailModal"
+    [task]="selectedTaskDetail"
+    (close)="closeDetailModal()">
+  </app-task-detail-modal>
+</div>

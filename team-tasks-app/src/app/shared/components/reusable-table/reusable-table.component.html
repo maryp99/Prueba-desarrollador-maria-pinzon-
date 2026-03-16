@@ -1,0 +1,75 @@
+<!-- src/app/shared/components/reusable-table/reusable-table.component.html -->
+
+<div class="table-container">
+  <!-- ═══════════════════════════════════════
+       INDICADOR DE CARGA
+  ═══════════════════════════════════════ -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Cargando datos...</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TABLA
+  ═══════════════════════════════════════ -->
+  <table class="reusable-table" *ngIf="!isLoading">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">
+          {{ column.label }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--  FILAS DE DATOS -->
+      <tr 
+        *ngFor="let row of data" 
+        [class]="getRowCssClass(row)"
+        (click)="onRowClick(row)"
+        class="table-row">
+        
+        <!--  CELDAS -->
+        <td 
+          *ngFor="let column of columns"
+          [class]="getCellClass(column, row)">
+          
+          <!-- ═══════════════════════════════════════
+               OPCIÓN 1: CON FORMAT (tiene prioridad)
+          ═══════════════════════════════════════ -->
+          <ng-container *ngIf="column.format">
+            {{ column.format(row[column.key]) }}
+          </ng-container>
+          
+          <!-- ═══════════════════════════════════════
+               OPCIÓN 2: CON PIPE DATE (solo si no hay format)
+          ═══════════════════════════════════════ -->
+          <ng-container *ngIf="!column.format && column.pipe === 'date'">
+            <ng-container *ngIf="row[column.key]; else noDate">
+              {{ row[column.key] | date:'dd/MM/yyyy' }}
+            </ng-container>
+            <ng-template #noDate>
+              <span class="no-data-cell">N/A</span>
+            </ng-template>
+          </ng-container>
+          
+          <!-- ═══════════════════════════════════════
+               OPCIÓN 3: SIN PIPE NI FORMAT
+          ═══════════════════════════════════════ -->
+          <ng-container *ngIf="!column.format && !column.pipe">
+            {{ getCellValue(row, column) }}
+          </ng-container>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════
+       MENSAJE SI NO HAY DATOS
+  ═══════════════════════════════════════ -->
+  <div *ngIf="!isLoading && data.length === 0" class="no-data">
+    <div class="no-data-icon">📭</div>
+    <p class="no-data-message">No hay datos para mostrar</p>
+    <p class="no-data-hint">Intenta ajustar los filtros o agregar nuevos registros</p>
+  </div>
+</div>

@@ -1,0 +1,228 @@
+// src/app/app.component.scss
+
+$primary-color: #009999;
+$secondary-color: #006b6b;
+$bg-light: #f8f9fa;
+$bg-white: #ffffff;
+$text-dark: #212529;
+$text-light: #ffffff;
+$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+$transition: all 0.3s ease;
+
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.navbar {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  box-shadow: $shadow-md;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  .app-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $text-light;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .icon {
+      font-size: 2rem;
+    }
+  }
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
+
+  li {
+    margin: 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    color: $text-light;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: $transition;
+    white-space: nowrap;
+
+    .nav-icon {
+      font-size: 1.25rem;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      background-color: rgba(255, 255, 255, 0.25);
+      font-weight: 700;
+    }
+  }
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: $text-light;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: $transition;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.active {
+    .hamburger-icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  .hamburger-icon {
+    display: block;
+    transition: $transition;
+  }
+}
+
+.mobile-menu {
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: darken($primary-color, 5%);
+
+  &.open {
+    max-height: 500px;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 1rem;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .mobile-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      color: $text-light;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: $transition;
+
+      .nav-icon {
+        font-size: 1.5rem;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+      }
+
+      &.active {
+        background-color: rgba(255, 255, 255, 0.25);
+        font-weight: 700;
+      }
+    }
+  }
+}
+.main-content {
+  flex: 1;
+  background-color: $bg-light;
+}
+
+
+.app-footer {
+  background-color: $text-dark;
+  color: $text-light;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: auto;
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+
+@media (max-width: 992px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+
+  .navbar-content {
+    padding: 1rem;
+  }
+
+  .navbar-brand .app-title {
+    font-size: 1.5rem;
+
+    .icon {
+      font-size: 1.75rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand .app-title {
+    font-size: 1.25rem;
+
+    .icon {
+      font-size: 1.5rem;
+    }
+  }
+
+  .app-footer {
+    padding: 1rem;
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}

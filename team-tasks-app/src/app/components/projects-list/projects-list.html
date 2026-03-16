@@ -1,0 +1,68 @@
+<!-- src/app/components/projects-list/projects-list.component.html -->
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>📁 Todos los Proyectos</h1>
+    <p class="subtitle">Gestiona y visualiza todos los proyectos del equipo</p>
+  </div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <h2>Lista de Proyectos</h2>
+      <button class="btn-primary">
+        ➕ Nuevo Proyecto
+      </button>
+    </div>
+
+    <div class="projects-grid" *ngIf="!isLoading && projects.length > 0">
+      <div *ngFor="let project of projects" class="project-card" [routerLink]="['/projects', project.id, 'tasks']">
+        <div class="project-header">
+          <h3>{{ project.name }}</h3>
+          <span class="project-id">ID: {{ project.id }}</span>
+        </div>
+        
+        <div class="project-stats">
+          <div class="stat-item">
+            <span class="stat-label">Total Tareas:</span>
+            <span class="stat-value">{{ project.totalTasks }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Completadas:</span>
+            <span class="stat-value completed">{{ project.completedTasks }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">En Progreso:</span>
+            <span class="stat-value in-progress">{{ project.inProgressTasks }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Pendientes:</span>
+            <span class="stat-value pending">{{ project.pendingTasks }}</span>
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="getCompletionPercentage(project)"></div>
+        </div>
+        <p class="progress-text">{{ getCompletionPercentage(project) }}% Completado</p>
+
+        <div class="project-footer">
+          <button class="btn-view-tasks">
+            Ver Tareas →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando proyectos...</p>
+    </div>
+
+    <div *ngIf="!isLoading && projects.length === 0" class="empty-state">
+      <div class="empty-icon">📂</div>
+      <h3>No hay proyectos disponibles</h3>
+      <p>Crea tu primer proyecto para comenzar</p>
+      <button class="btn-primary">➕ Crear Proyecto</button>
+    </div>
+  </div>
+</div>

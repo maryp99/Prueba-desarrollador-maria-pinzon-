@@ -1,0 +1,72 @@
+<!-- src/app/new-task/new-task.component.html -->
+<div class="new-task-form-container">
+  <h1>Crear Nueva Tarea</h1>
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="projectId">Proyecto:</label>
+      <select id="projectId" formControlName="projectId">
+        <option value="">Selecciona un proyecto</option>
+        <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}</option>
+      </select>
+      <div *ngIf="taskForm.get('projectId')?.invalid && taskForm.get('projectId')?.touched" class="error-message">
+        Proyecto es requerido.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="title">Título:</label>
+      <input id="title" type="text" formControlName="title">
+      <div *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched" class="error-message">
+        Título es requerido y no debe exceder 100 caracteres.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción:</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="assigneeId">Asignado a:</label>
+      <select id="assigneeId" formControlName="assigneeId">
+        <option value="">Selecciona un desarrollador</option>
+        <option *ngFor="let assignee of assignees" [value]="assignee.id">{{ assignee.name }}</option>
+      </select>
+      <div *ngIf="taskForm.get('assigneeId')?.invalid && taskForm.get('assigneeId')?.touched" class="error-message">
+        Asignado a es requerido.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Estado:</label>
+      <select id="status" formControlName="status">
+        <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Prioridad:</label>
+      <select id="priority" formControlName="priority">
+        <option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="estimatedComplexity">Complejidad Estimada (1-5):</label>
+      <input id="estimatedComplexity" type="number" formControlName="estimatedComplexity" min="1" max="5">
+      <div *ngIf="taskForm.get('estimatedComplexity')?.invalid && taskForm.get('estimatedComplexity')?.touched" class="error-message">
+        Complejidad es requerida (1-5).
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="dueDate">Fecha de Vencimiento:</label>
+      <input id="dueDate" type="date" formControlName="dueDate">
+      <div *ngIf="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched" class="error-message">
+        Fecha de vencimiento es requerida.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="taskForm.invalid">Crear Tarea</button>
+  </form>
+</div>

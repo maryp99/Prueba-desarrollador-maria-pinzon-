@@ -1,0 +1,136 @@
+<!-- team-tasks-app/src/app/components/dashboard/dashboard.component.html -->
+
+<div class="dashboard-container">
+  <h1 class="dashboard-title">📊 Team Tasks Dashboard</h1>
+
+  <!-- Developer Workload Section -->
+  <section class="dashboard-section">
+    <h2 class="section-title">👨‍💻 Carga de Trabajo por Desarrollador</h2>
+    
+    <div *ngIf="isLoadingWorkload" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando datos...</p>
+    </div>
+
+    <div *ngIf="errorWorkload" class="error-message">
+      ❌ {{ errorWorkload }}
+    </div>
+
+    <div *ngIf="!isLoadingWorkload && !errorWorkload && developerWorkload.length > 0" class="cards-grid">
+      <div *ngFor="let dev of developerWorkload" class="card workload-card">
+        <h3 class="card-title">{{ dev.developerName }}</h3>
+        <div class="card-stats">
+          <div class="stat">
+            <span class="stat-label">Tareas Abiertas:</span>
+            <span class="stat-value">{{ dev.openTasksCount }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Complejidad Promedio:</span>
+            <span class="stat-value complexity">{{ dev.avgEstimatedComplexity | number:'1.1-1' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoadingWorkload && !errorWorkload && developerWorkload.length === 0" class="empty-message">
+      📭 No hay datos de desarrolladores disponibles
+    </div>
+  </section>
+
+  <!-- Project Health Section -->
+  <section class="dashboard-section">
+    <h2 class="section-title">🏗️ Estado de Salud de Proyectos</h2>
+    
+    <div *ngIf="isLoadingProjects" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando proyectos...</p>
+    </div>
+
+    <div *ngIf="errorProjects" class="error-message">
+      ❌ {{ errorProjects }}
+    </div>
+
+    <div *ngIf="!isLoadingProjects && !errorProjects && projectHealth.length > 0" class="cards-grid">
+      <div *ngFor="let project of projectHealth" class="card project-card">
+        <h3 class="card-title">{{ project.projectName }}</h3>
+        <p class="client-name">Cliente: {{ project.clientName }}</p>
+        
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div 
+              class="progress-fill" 
+              [style.width.%]="getCompletionPercentage(project)">
+            </div>
+          </div>
+          <span class="progress-text">{{ getCompletionPercentage(project) }}%</span>
+        </div>
+
+        <div class="card-stats">
+          <div class="stat">
+            <span class="stat-label">Total:</span>
+            <span class="stat-value">{{ project.totalTasks }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Abiertas:</span>
+            <span class="stat-value open">{{ project.openTasks }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Completadas:</span>
+            <span class="stat-value completed">{{ project.completedTasks }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoadingProjects && !errorProjects && projectHealth.length === 0" class="empty-message">
+      📭 No hay proyectos disponibles
+    </div>
+  </section>
+
+  <!-- Developer Delay Risk Section -->
+  <section class="dashboard-section">
+    <h2 class="section-title">⚠️ Riesgo de Retraso por Desarrollador</h2>
+    
+    <div *ngIf="isLoadingRisk" class="loading">
+      <div class="spinner"></div>
+      <p>Analizando riesgos...</p>
+    </div>
+
+    <div *ngIf="errorRisk" class="error-message">
+      ❌ {{ errorRisk }}
+    </div>
+
+    <div *ngIf="!isLoadingRisk && !errorRisk && developerDelayRisk.length > 0" class="cards-grid">
+      <div *ngFor="let risk of developerDelayRisk" 
+           class="card risk-card"
+           [ngClass]="getRiskClass(risk)">
+        <div class="risk-header">
+          <h3 class="card-title">{{ risk.developerName }}</h3>
+          <span class="risk-badge" *ngIf="risk.highRiskFlag === 1">🔴 Alto Riesgo</span>
+          <span class="risk-badge low" *ngIf="risk.highRiskFlag === 0">🟢 Bajo Riesgo</span>
+        </div>
+
+        <div class="card-stats">
+          <div class="stat">
+            <span class="stat-label">Tareas Abiertas:</span>
+            <span class="stat-value">{{ risk.openTasksCount }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Retraso Promedio:</span>
+            <span class="stat-value delay">{{ risk.avgDelayDays | number:'1.1-1' }} días</span>
+          </div>
+        </div>
+
+        <div class="dates-info">
+          <p><strong>Fecha más cercana:</strong> {{ risk.nearestDueDate | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Fecha más lejana:</strong> {{ risk.latestDueDate | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Completación predicha:</strong> {{ risk.predictedCompletionDate | date:'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoadingRisk && !errorRisk && developerDelayRisk.length === 0" class="empty-message">
+      📭 No hay datos de riesgo disponibles
+    </div>
+  </section>
+</div>

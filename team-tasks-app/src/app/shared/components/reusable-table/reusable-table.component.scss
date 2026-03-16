@@ -1,0 +1,158 @@
+// src/app/shared/components/reusable-table/reusable-table.component.scss
+
+.table-container {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.reusable-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+
+  thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    th {
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #e0e0e0;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #f8f9fa;
+        cursor: pointer;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 14px 16px;
+        font-size: 14px;
+        color: #333;
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// CLASES DE FILA (getRowClass)
+// ═══════════════════════════════════════
+.high-priority-row {
+  background: #fff5f5 !important;
+  border-left: 4px solid #dc3545;
+
+  &:hover {
+    background: #ffe5e5 !important;
+  }
+}
+
+.completed-row {
+  background: #f0fff4 !important;
+  border-left: 4px solid #28a745;
+  opacity: 0.8;
+
+  &:hover {
+    background: #e0f7e9 !important;
+  }
+}
+
+.blocked-row {
+  background: #fff3cd !important;
+  border-left: 4px solid #ffc107;
+
+  &:hover {
+    background: #ffe8a1 !important;
+  }
+}
+
+.inprogress-row {
+  background: #e7f3ff !important;
+  border-left: 4px solid #007bff;
+
+  &:hover {
+    background: #d0e7ff !important;
+  }
+}
+
+// ═══════════════════════════════════════
+// INDICADOR DE CARGA
+// ═══════════════════════════════════════
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  p {
+    margin-top: 20px;
+    color: #666;
+    font-size: 16px;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// ═══════════════════════════════════════
+// MENSAJE SIN DATOS
+// ═══════════════════════════════════════
+.no-data {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+
+  p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+  }
+}
+
+// ═══════════════════════════════════════
+// RESPONSIVE
+// ═══════════════════════════════════════
+@media (max-width: 768px) {
+  .reusable-table {
+    font-size: 12px;
+
+    thead th {
+      padding: 12px 8px;
+      font-size: 12px;
+    }
+
+    tbody td {
+      padding: 10px 8px;
+      font-size: 12px;
+    }
+  }
+}

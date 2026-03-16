@@ -1,0 +1,99 @@
+<!-- src/app/components/all-tasks/all-tasks.component.html -->
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>📝 Todas las Tareas</h1>
+    <p class="subtitle">Visualiza y gestiona todas las tareas del equipo</p>
+  </div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <h2>Lista General de Tareas</h2>
+      <button class="btn-primary" routerLink="/nueva-tarea">
+        ➕ Nueva Tarea
+      </button>
+    </div>
+
+    <div class="filters-section">
+      <div class="filter-group">
+        <label>Estado:</label>
+        <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
+          <option value="">Todos</option>
+          <option value="TODO">Pendiente</option>
+          <option value="InProgress">En Progreso</option>
+          <option value="Done">Completada</option>
+          <option value="Blocked">Bloqueada</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Prioridad:</label>
+        <select [(ngModel)]="selectedPriority" (change)="applyFilters()">
+          <option value="">Todas</option>
+          <option value="High">Alta</option>
+          <option value="Medium">Media</option>
+          <option value="Low">Baja</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Proyecto:</label>
+        <select [(ngModel)]="selectedProject" (change)="applyFilters()">
+          <option value="">Todos</option>
+          <option *ngFor="let project of availableProjects" [value]="project.id">
+            {{ project.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tasks-list" *ngIf="!isLoading && filteredTasks.length > 0">
+      <div *ngFor="let task of filteredTasks" class="task-item" [ngClass]="getTaskClass(task)">
+        <div class="task-header">
+          <h3>{{ task.title }}</h3>
+          <span class="task-status" [ngClass]="'status-' + task.status.toLowerCase()">
+            {{ getStatusLabel(task.status) }}
+          </span>
+        </div>
+
+        <p class="task-description">{{ task.description }}</p>
+
+        <div class="task-meta">
+          <div class="meta-item">
+            <span class="meta-label">📁 Proyecto:</span>
+            <span class="meta-value">{{ task.projectName }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">👤 Asignado a:</span>
+            <span class="meta-value">{{ task.assignedName }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">⚡ Prioridad:</span>
+            <span class="meta-value" [ngClass]="'priority-' + task.priority.toLowerCase()">
+              {{ task.priority }}
+            </span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">📊 Complejidad:</span>
+            <span class="meta-value">{{ task.complexity }}/10</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">📅 Vencimiento:</span>
+            <span class="meta-value">{{ task.dueDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando tareas...</p>
+    </div>
+
+    <div *ngIf="!isLoading && filteredTasks.length === 0" class="empty-state">
+      <div class="empty-icon">📭</div>
+      <h3>No se encontraron tareas</h3>
+      <p>Intenta ajustar los filtros o crea una nueva tarea</p>
+    </div>
+  </div>
+</div>
